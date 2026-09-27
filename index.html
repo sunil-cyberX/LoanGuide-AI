@@ -5,20 +5,115 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LoanGuide AI</title>
 <script>
-// ════════════════════════════════════════
-// COMPANY CONFIG — SIRF YAHAN CHANGE KARO
-// ════════════════════════════════════════
 const COMPANY = {
-  name: "LoanGuide AI",           // Company naam
-  logo: "💰",                      // Logo emoji ya image URL
-  color: "#60a5fa",                // Brand color
-  phone: "1800-XXX-XXXX",         // Phone number
-  address: "Your City, India",     // Address
-  website: "www.yoursite.com",     // Website
-  tagline: "Free Loan Guidance • 24/7 Available",
-  whatsapp: "91XXXXXXXXXX"        // WhatsApp number
+  name: "LoanGuide AI",
+  logo: "💰",
+  color: "#60a5fa",
+  phone: "1800-XXX-XXXX",
+  address: "Your City, India",
+  website: "www.yoursite.com",
+  whatsapp: "91XXXXXXXXXX"
 };
-// ════════════════════════════════════════
+
+const LANG = {
+  hi: {
+    tagline: "मुफ्त लोन गाइडेंस • 24/7 उपलब्ध",
+    contactTitle: "हमसे सीधे बात करें",
+    callBtn: "📞 कॉल करें",
+    waBtn: "💬 WhatsApp",
+    webBtn: "🌐 वेबसाइट",
+    locBtn: "📍 लोकेशन",
+    emiTitle: "🧮 EMI कैलकुलेटर",
+    calcBtn: "EMI Calculate करें",
+    sectionLabel: "लोन टाइप चुनें",
+    placeholder: "लोन के बारे में कुछ भी पूछें...",
+    applyBtn: "🚀 अभी Apply करें — Expert से बात करें",
+    disclaimer: "⚠️ यह सामान्य जानकारी है। अंतिम निर्णय के लिए हमारे Expert से मिलें।",
+    welcome: "नमस्ते! मैं आपका Loan AI Assistant हूँ। 🙏<br><br>अपना सवाल हिंदी या English में पूछें!",
+    loans: [
+      { icon:"🏠", name:"होम लोन", desc:"घर खरीदने के लिए", q:"Home loan ke baare mein batao" },
+      { icon:"👤", name:"पर्सनल लोन", desc:"किसी भी ज़रूरत के लिए", q:"Personal loan ke baare mein batao" },
+      { icon:"🏢", name:"बिज़नेस लोन", desc:"व्यापार के लिए", q:"Business loan ke baare mein batao" },
+      { icon:"🎓", name:"एजुकेशन लोन", desc:"पढ़ाई के लिए", q:"Education loan ke baare mein batao" },
+      { icon:"🚗", name:"कार लोन", desc:"गाड़ी के लिए", q:"Car loan ke baare mein batao" },
+      { icon:"🥇", name:"गोल्ड लोन", desc:"सोने पर लोन", q:"Gold loan ke baare mein batao" },
+      { icon:"🇮🇳", name:"मुद्रा लोन", desc:"सरकारी योजना", q:"Mudra loan ke baare mein batao" },
+      { icon:"❌", name:"लोन Reject?", desc:"अब क्या करें", q:"Loan reject ho gaya kya karoon" },
+    ],
+    emiError: "⚠️ तीनों fields भरें!",
+    callLabel: "पर Call करें",
+  },
+  en: {
+    tagline: "Free Loan Guidance • 24/7 Available",
+    contactTitle: "CONTACT US DIRECTLY",
+    callBtn: "📞 Call Now",
+    waBtn: "💬 WhatsApp",
+    webBtn: "🌐 Website",
+    locBtn: "📍 Location",
+    emiTitle: "🧮 EMI Calculator",
+    calcBtn: "Calculate EMI",
+    sectionLabel: "SELECT LOAN TYPE",
+    placeholder: "Ask anything about loans...",
+    applyBtn: "🚀 Apply Now — Talk to Our Expert",
+    disclaimer: "⚠️ This is general guidance. Please consult our expert before final decision.",
+    welcome: "Hello! I am your Loan AI Assistant. 🙏<br><br>Ask your question in Hindi or English!",
+    loans: [
+      { icon:"🏠", name:"Home Loan", desc:"To buy a house", q:"Home loan ke baare mein batao" },
+      { icon:"👤", name:"Personal Loan", desc:"For any need", q:"Personal loan ke baare mein batao" },
+      { icon:"🏢", name:"Business Loan", desc:"For business", q:"Business loan ke baare mein batao" },
+      { icon:"🎓", name:"Education Loan", desc:"For studies", q:"Education loan ke baare mein batao" },
+      { icon:"🚗", name:"Car Loan", desc:"For vehicle", q:"Car loan ke baare mein batao" },
+      { icon:"🥇", name:"Gold Loan", desc:"Loan on gold", q:"Gold loan ke baare mein batao" },
+      { icon:"🇮🇳", name:"Mudra Loan", desc:"Govt scheme", q:"Mudra loan ke baare mein batao" },
+      { icon:"❌", name:"Loan Rejected?", desc:"What to do now", q:"Loan reject ho gaya kya karoon" },
+    ],
+    emiError: "⚠️ Please fill all three fields!",
+    callLabel: "Call us at",
+  }
+};
+
+const RESPONSES = {
+  home: {
+    keys: ['home loan','ghar','house','property','makaan','flat','plot'],
+    hi: `🏠 <b>होम लोन गाइड:</b><br><br><b>ब्याज दरें:</b><br>• SBI — 8.50% से शुरू<br>• HDFC — 8.75% से शुरू<br>• ICICI — 8.75% से शुरू<br><br><b>Documents:</b><br>• आधार + PAN कार्ड<br>• 6 महीने की Salary Slip<br>• 2 साल का ITR<br>• Property Documents<br><br><b>कितना मिलेगा:</b><br>• Property value का 80% तक<br>• PMAY में ₹2.67 लाख Subsidy!`,
+    en: `🏠 <b>Home Loan Guide:</b><br><br><b>Interest Rates:</b><br>• SBI — from 8.50%<br>• HDFC — from 8.75%<br>• ICICI — from 8.75%<br><br><b>Documents needed:</b><br>• Aadhar + PAN card<br>• 6 months salary slip<br>• 2 years ITR<br>• Property documents<br><br><b>How much you can get:</b><br>• Up to 80% of property value<br>• ₹2.67 lakh subsidy under PMAY!`
+  },
+  personal: {
+    keys: ['personal loan','personal','emergency','shaadi','wedding','travel','medical'],
+    hi: `👤 <b>पर्सनल लोन गाइड:</b><br><br><b>ब्याज दरें:</b><br>• Banks — 10-15% प्रति वर्ष<br>• NBFCs — 12-24%<br><br><b>Eligibility:</b><br>• Minimum Salary ₹15,000/month<br>• CIBIL Score 700+<br>• Age 21-58 साल<br><br><b>Documents:</b><br>• आधार + PAN<br>• 3 महीने की Salary Slip<br>• Bank Statement`,
+    en: `👤 <b>Personal Loan Guide:</b><br><br><b>Interest Rates:</b><br>• Banks — 10-15% per year<br>• NBFCs — 12-24%<br><br><b>Eligibility:</b><br>• Minimum salary ₹15,000/month<br>• CIBIL Score 700+<br>• Age 21-58 years<br><br><b>Documents:</b><br>• Aadhar + PAN<br>• 3 months salary slip<br>• Bank statement`
+  },
+  business: {
+    keys: ['business loan','business','dukan','shop','startup','vyapar'],
+    hi: `🏢 <b>बिज़नेस लोन गाइड:</b><br><br><b>सरकारी योजनाएं:</b><br>• मुद्रा लोन — ₹10 लाख तक<br>• CGTMSE — ₹2 करोड़ तक<br>• Startup India<br><br><b>Bank Loan:</b><br>• ब्याज: 11-16% प्रति वर्ष<br><br><b>Documents:</b><br>• Business Registration<br>• GST Certificate<br>• 2 साल ITR<br>• 12 महीने Bank Statement`,
+    en: `🏢 <b>Business Loan Guide:</b><br><br><b>Govt Schemes:</b><br>• Mudra Loan — up to ₹10 lakh<br>• CGTMSE — up to ₹2 crore<br>• Startup India<br><br><b>Bank Loan:</b><br>• Interest: 11-16% per year<br><br><b>Documents:</b><br>• Business registration<br>• GST certificate<br>• 2 years ITR<br>• 12 months bank statement`
+  },
+  education: {
+    keys: ['education loan','padhai','college','university','abroad','study'],
+    hi: `🎓 <b>एजुकेशन लोन गाइड:</b><br><br><b>India में:</b><br>• SBI Scholar — 8.15% (IIT/IIM)<br>• ₹10 लाख तक — No Collateral<br><br><b>Abroad के लिए:</b><br>• ₹20-75 लाख तक<br>• 10-14% ब्याज<br><br><b>SC/ST Students को Subsidy मिलती है!</b>`,
+    en: `🎓 <b>Education Loan Guide:</b><br><br><b>For India:</b><br>• SBI Scholar — 8.15% (IIT/IIM)<br>• Up to ₹10 lakh — No Collateral<br><br><b>For Abroad:</b><br>• Up to ₹20-75 lakh<br>• 10-14% interest<br><br><b>SC/ST students get interest subsidy!</b>`
+  },
+  car: {
+    keys: ['car loan','car','vehicle','bike','gaadi','scooter'],
+    hi: `🚗 <b>कार लोन गाइड:</b><br><br><b>ब्याज दरें:</b><br>• New Car — 8.5-12%<br>• Used Car — 12-18%<br>• Two Wheeler — 9-16%<br><br><b>कितना मिलेगा:</b><br>• New Car — 90% Price<br>• Used Car — 80% Value<br><br><b>Tip: Dealer से नहीं, Bank से लो!</b>`,
+    en: `🚗 <b>Car Loan Guide:</b><br><br><b>Interest Rates:</b><br>• New Car — 8.5-12%<br>• Used Car — 12-18%<br>• Two Wheeler — 9-16%<br><br><b>How much:</b><br>• New Car — 90% of price<br>• Used Car — 80% of value<br><br><b>Tip: Get from bank, not dealer!</b>`
+  },
+  gold: {
+    keys: ['gold loan','sona','gold','jewellery','zever'],
+    hi: `🥇 <b>गोल्ड लोन — 30 मिनट में!</b><br><br><b>ब्याज:</b><br>• Banks — 8-12%<br>• Muthoot — 12-24%<br><br><b>कितना मिलेगा:</b><br>• Gold Value का 75% तक<br>• सिर्फ आधार चाहिए!<br>• CIBIL Score नहीं चाहिए`,
+    en: `🥇 <b>Gold Loan — In 30 minutes!</b><br><br><b>Interest:</b><br>• Banks — 8-12%<br>• Muthoot — 12-24%<br><br><b>How much:</b><br>• Up to 75% of gold value<br>• Only Aadhar needed!<br>• No CIBIL score required`
+  },
+  mudra: {
+    keys: ['mudra','govt','government','scheme','sarkari','pm','pradhan mantri'],
+    hi: `🇮🇳 <b>मुद्रा लोन — सरकारी योजना:</b><br><br>• <b>शिशु</b> — ₹50,000 तक<br>• <b>किशोर</b> — ₹5 लाख तक<br>• <b>तरुण</b> — ₹10 लाख तक<br><br><b>No Collateral! Low Interest!</b><br>महिलाओं को Extra Benefit!`,
+    en: `🇮🇳 <b>Mudra Loan — Govt Scheme:</b><br><br>• <b>Shishu</b> — up to ₹50,000<br>• <b>Kishore</b> — up to ₹5 lakh<br>• <b>Tarun</b> — up to ₹10 lakh<br><br><b>No Collateral! Low Interest!</b><br>Extra benefits for women!`
+  },
+  reject: {
+    keys: ['reject','rejection','nahi mila','refused','cibil','score'],
+    hi: `❌ <b>लोन Reject हुआ? घबराओ मत!</b><br><br><b>क्या करें:</b><br>• CIBIL Score Free में Check करो<br>• पुराना लोन चुकाओ पहले<br>• Co-applicant Add करो<br>• 6 महीने बाद फिर Try करो<br><br><b>हमारे Expert आपकी Help करेंगे!</b>`,
+    en: `❌ <b>Loan Rejected? Don't worry!</b><br><br><b>What to do:</b><br>• Check CIBIL score for free<br>• Clear old loans first<br>• Add a co-applicant<br>• Try again after 6 months<br><br><b>Our experts will help you!</b>`
+  }
+};
 </script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,12 +131,34 @@ const COMPANY = {
     align-items: center;
     gap: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   .logo { font-size: 2rem; }
-  .header-text h1 { font-size: 1.3rem; font-weight: 700; }
-  .header-text p { font-size: 0.75rem; }
+  .header-text h1 { font-size: 1.2rem; font-weight: 700; }
+  .header-text p { font-size: 0.7rem; opacity: 0.7; }
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .lang-toggle {
+    display: flex;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .lang-btn {
+    padding: 4px 12px;
+    border-radius: 18px;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    transition: all 0.2s;
+  }
+  .lang-btn.active { color: #000; }
   .badge {
-    margin-left: auto;
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 11px;
@@ -49,8 +166,6 @@ const COMPANY = {
     color: #000;
   }
   .container { max-width: 700px; margin: 0 auto; padding: 1.5rem; }
-
-  /* Company Contact Card */
   .company-card {
     border-radius: 16px;
     padding: 1rem 1.25rem;
@@ -59,7 +174,7 @@ const COMPANY = {
     background: rgba(255,255,255,0.05);
   }
   .company-card-title {
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.1em;
     color: rgba(255,255,255,0.4);
     margin-bottom: 10px;
@@ -68,20 +183,19 @@ const COMPANY = {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
+    margin-bottom: 10px;
   }
   .info-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-size: 12px;
     color: rgba(255,255,255,0.8);
   }
-  .info-icon { font-size: 14px; }
   .contact-btns {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    margin-top: 12px;
   }
   .contact-btn {
     padding: 10px;
@@ -96,10 +210,62 @@ const COMPANY = {
     gap: 6px;
   }
   .btn-call { background: #22c55e; color: white; }
-  .btn-whatsapp { background: #25D366; color: white; }
-  .btn-web { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2) !important; }
-  .btn-location { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2) !important; }
-
+  .btn-wa { background: #25D366; color: white; }
+  .btn-web, .btn-loc {
+    background: rgba(255,255,255,0.08);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+  }
+  .emi-calculator {
+    border-radius: 16px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+  }
+  .emi-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+  .emi-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .emi-input {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+    font-size: 11px;
+    width: 100%;
+    outline: none;
+    text-align: center;
+  }
+  .emi-input::placeholder { color: rgba(255,255,255,0.3); font-size: 10px; }
+  .calc-btn {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    color: #000;
+  }
+  .emi-result {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+    line-height: 1.6;
+  }
+  .section-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
   .loan-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -146,7 +312,6 @@ const COMPANY = {
   .msg.bot .msg-bubble {
     background: rgba(96,165,250,0.15);
     border: 1px solid rgba(96,165,250,0.3);
-    color: #e0f0ff;
   }
   .msg.user .msg-bubble {
     background: rgba(99,102,241,0.3);
@@ -174,6 +339,17 @@ const COMPANY = {
     font-size: 16px;
     color: #000;
   }
+  .apply-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    color: white;
+  }
   .disclaimer {
     margin-top: 1rem;
     padding: 10px 14px;
@@ -184,367 +360,187 @@ const COMPANY = {
     color: #fbbf24;
     text-align: center;
   }
-  .section-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: 0.1em;
-    margin-bottom: 10px;
-  }
-  .emi-calculator {
-    border-radius: 16px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.05);
-  }
-  .emi-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
-  .emi-inputs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .emi-input {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 8px;
-    padding: 8px;
-    color: white;
-    font-size: 12px;
-    width: 100%;
-    outline: none;
-    text-align: center;
-  }
-  .emi-input::placeholder { color: rgba(255,255,255,0.3); font-size: 10px; }
-  .calc-btn {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 13px;
-    color: #000;
-  }
-  .emi-result {
-    margin-top: 10px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    display: none;
-  }
-  .apply-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: none;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 1rem;
-    color: white;
-  }
   ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 </style>
 </head>
 <body>
 
-<div class="header" id="header">
-  <div class="logo" id="headerLogo"></div>
+<div class="header">
+  <div class="logo" id="hLogo"></div>
   <div class="header-text">
-    <h1 id="headerName"></h1>
-    <p id="headerTagline"></p>
+    <h1 id="hName"></h1>
+    <p id="hTagline"></p>
   </div>
-  <div class="badge" id="headerBadge">FREE</div>
+  <div class="header-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnHI" onclick="setLang('hi')">HI</button>
+      <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="badge" id="hBadge">FREE</div>
+  </div>
 </div>
 
 <div class="container">
 
-  <!-- Company Contact Card -->
-  <div class="company-card" id="companyCard">
-    <div class="company-card-title">HAMSE SEEDHA BAAT KAREIN</div>
+  <div class="company-card">
+    <div class="company-card-title" id="contactTitle"></div>
     <div class="company-info">
-      <div class="info-item">
-        <span class="info-icon">📞</span>
-        <span id="companyPhone"></span>
-      </div>
-      <div class="info-item">
-        <span class="info-icon">🌐</span>
-        <span id="companyWebsite"></span>
-      </div>
-      <div class="info-item" style="grid-column: span 2;">
-        <span class="info-icon">📍</span>
-        <span id="companyAddress"></span>
-      </div>
+      <div class="info-item">📞 <span id="cPhone"></span></div>
+      <div class="info-item">🌐 <span id="cWeb"></span></div>
+      <div class="info-item" style="grid-column:span 2">📍 <span id="cAddr"></span></div>
     </div>
     <div class="contact-btns">
-      <button class="contact-btn btn-call" id="btnCall">📞 Call Now</button>
-      <button class="contact-btn btn-whatsapp" id="btnWhatsapp">💬 WhatsApp</button>
-      <button class="contact-btn btn-web" id="btnWeb">🌐 Website</button>
-      <button class="contact-btn btn-location" onclick="alert('Address: ' + COMPANY.address)">📍 Location</button>
+      <button class="contact-btn btn-call" id="btnCall"></button>
+      <button class="contact-btn btn-wa" id="btnWA"></button>
+      <button class="contact-btn btn-web" id="btnWeb"></button>
+      <button class="contact-btn btn-loc" id="btnLoc"></button>
     </div>
   </div>
 
-  <!-- EMI Calculator -->
   <div class="emi-calculator">
-    <div class="emi-title" id="emiTitle">🧮 EMI Calculator</div>
+    <div class="emi-title" id="emiTitle"></div>
     <div class="emi-inputs">
       <input class="emi-input" id="principal" type="number" placeholder="Loan ₹">
       <input class="emi-input" id="rate" type="number" placeholder="Interest %">
       <input class="emi-input" id="tenure" type="number" placeholder="Months">
     </div>
-    <button class="calc-btn" id="calcBtn" onclick="calcEMI()">Calculate EMI</button>
+    <button class="calc-btn" id="calcBtn" onclick="calcEMI()"></button>
     <div class="emi-result" id="emiResult"></div>
   </div>
 
-  <div class="section-label">LOAN TYPE CHUNIYE</div>
-
-  <div class="loan-grid">
-    <button class="loan-btn" onclick="quickAsk('Home loan ke baare mein batao')">
-      <div class="icon">🏠</div>
-      <div class="name">Home Loan</div>
-      <div class="desc">Ghar kharidne ke liye</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Personal loan ke baare mein batao')">
-      <div class="icon">👤</div>
-      <div class="name">Personal Loan</div>
-      <div class="desc">Kisi bhi zaroorat ke liye</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Business loan ke baare mein batao')">
-      <div class="icon">🏢</div>
-      <div class="name">Business Loan</div>
-      <div class="desc">Business ke liye</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Education loan ke baare mein batao')">
-      <div class="icon">🎓</div>
-      <div class="name">Education Loan</div>
-      <div class="desc">Padhai ke liye</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Car loan ke baare mein batao')">
-      <div class="icon">🚗</div>
-      <div class="name">Car Loan</div>
-      <div class="desc">Gaadi ke liye</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Gold loan ke baare mein batao')">
-      <div class="icon">🥇</div>
-      <div class="name">Gold Loan</div>
-      <div class="desc">Sone pe loan</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Mudra loan ke baare mein batao')">
-      <div class="icon">🇮🇳</div>
-      <div class="name">Mudra Loan</div>
-      <div class="desc">Govt scheme</div>
-    </button>
-    <button class="loan-btn" onclick="quickAsk('Loan reject ho gaya kya karoon')">
-      <div class="icon">❌</div>
-      <div class="name">Loan Reject?</div>
-      <div class="desc">Kya karein ab</div>
-    </button>
-  </div>
+  <div class="section-label" id="secLabel"></div>
+  <div class="loan-grid" id="loanGrid"></div>
 
   <div class="chat-box" id="chatBox">
     <div class="msg bot">
-      <div class="msg-avatar" id="botAvatar">💰</div>
+      <div class="msg-avatar" id="botAvatar"></div>
       <div class="msg-bubble" id="welcomeMsg"></div>
     </div>
   </div>
 
   <div class="input-row">
-    <input type="text" id="userInput"
-      placeholder="Loan ke baare mein kuch bhi poochein..."
-      onkeypress="if(event.key==='Enter') sendMsg()">
+    <input type="text" id="userInput" onkeypress="if(event.key==='Enter')sendMsg()">
     <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
   </div>
 
-  <button class="apply-btn" id="applyBtn"
-    onclick="window.open('https://wa.me/'+COMPANY.whatsapp+'?text=Mujhe loan ke baare mein jaankari chahiye', '_blank')">
-    🚀 Abhi Apply Karein — Hamare Expert Se Baat Karein
-  </button>
-
-  <div class="disclaimer">
-    ⚠️ Yeh general guidance hai. Final decision ke liye hamare expert se milein.
-  </div>
+  <button class="apply-btn" id="applyBtn"></button>
+  <div class="disclaimer" id="disclaimer"></div>
 
 </div>
 
 <script>
-// Apply company branding
-window.onload = function() {
-  document.getElementById('headerLogo').textContent = COMPANY.logo;
-  document.getElementById('headerName').textContent = COMPANY.name;
-  document.getElementById('headerTagline').textContent = COMPANY.tagline;
-  document.getElementById('headerBadge').style.background = COMPANY.color;
-  document.getElementById('sendBtn').style.background = COMPANY.color;
-  document.getElementById('calcBtn').style.background = COMPANY.color;
-  document.getElementById('applyBtn').style.background = COMPANY.color;
-  document.getElementById('emiTitle').style.color = COMPANY.color;
-  document.getElementById('companyPhone').textContent = COMPANY.phone;
-  document.getElementById('companyWebsite').textContent = COMPANY.website;
-  document.getElementById('companyAddress').textContent = COMPANY.address;
-  document.getElementById('btnCall').onclick = () => window.open('tel:' + COMPANY.phone);
-  document.getElementById('btnWhatsapp').onclick = () =>
-    window.open('https://wa.me/' + COMPANY.whatsapp + '?text=Mujhe loan mein madad chahiye');
-  document.getElementById('btnWeb').onclick = () =>
-    window.open('https://' + COMPANY.website);
-  document.getElementById('welcomeMsg').innerHTML =
-    `Namaste! Main <b>${COMPANY.name}</b> ka AI assistant hoon. 🙏<br><br>
-    Aap apna sawaal Hindi ya English mein poochein!<br><br>
-    📞 Direct baat ke liye: <b>${COMPANY.phone}</b>`;
-  document.getElementById('botAvatar').textContent = COMPANY.logo;
-  document.title = COMPANY.name + ' - Loan Guidance';
-};
+let currentLang = 'hi';
 
-const knowledge = {
-  home: {
-    keys: ['home loan','ghar','house','property','makaan','flat','plot'],
-    response: `🏠 <b>Home Loan Guide:</b><br><br>
-<b>Best Interest Rates:</b><br>
-• SBI — 8.50% se shuru<br>
-• HDFC — 8.75% se shuru<br>
-• ICICI — 8.75% se shuru<br>
-• LIC Housing — 8.50% se shuru<br><br>
-<b>Documents:</b><br>
-• Aadhar + PAN card<br>
-• 6 mahine salary slip<br>
-• 2 saal ITR<br>
-• Property documents<br><br>
-<b>Kitna milega:</b><br>
-• Property value ka 80% tak<br>
-• PMAY mein ₹2.67 lakh subsidy!<br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  personal: {
-    keys: ['personal loan','personal','emergency','shaadi','wedding','travel','medical'],
-    response: `👤 <b>Personal Loan Guide:</b><br><br>
-<b>Interest Rates:</b><br>
-• Banks — 10-15% per year<br>
-• NBFCs — 12-24% per year<br><br>
-<b>Eligibility:</b><br>
-• Minimum salary ₹15,000/month<br>
-• CIBIL score 700+<br>
-• Age 21-58 years<br><br>
-<b>Documents:</b><br>
-• Aadhar + PAN<br>
-• 3 month salary slip<br>
-• Bank statement<br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  business: {
-    keys: ['business loan','business','dukan','shop','startup','vyapar'],
-    response: `🏢 <b>Business Loan Guide:</b><br><br>
-<b>Best Options:</b><br>
-• Mudra Loan — ₹10 lakh tak<br>
-• CGTMSE — ₹2 crore tak<br>
-• Bank Business Loan — 11-16%<br><br>
-<b>Documents:</b><br>
-• Business registration<br>
-• GST certificate<br>
-• 2 saal ITR<br>
-• 12 month bank statement<br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  education: {
-    keys: ['education loan','padhai','college','university','abroad','study'],
-    response: `🎓 <b>Education Loan Guide:</b><br><br>
-<b>India mein:</b><br>
-• SBI Scholar — 8.15% (IIT/IIM)<br>
-• ₹10 lakh tak — no collateral<br><br>
-<b>Abroad ke liye:</b><br>
-• ₹20-75 lakh tak<br>
-• 10-14% interest<br><br>
-<b>SC/ST students ko subsidy milti hai!</b><br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  car: {
-    keys: ['car loan','car','vehicle','bike','gaadi','scooter'],
-    response: `🚗 <b>Car Loan Guide:</b><br><br>
-<b>Rates:</b><br>
-• New car — 8.5-12%<br>
-• Used car — 12-18%<br>
-• Two wheeler — 9-16%<br><br>
-<b>Kitna milega:</b><br>
-• New car — 90% price<br>
-• Used car — 80% value<br><br>
-<b>Tip: Bank se lo — dealer se nahi!</b><br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  gold: {
-    keys: ['gold loan','sona','gold','jewellery','zever'],
-    response: `🥇 <b>Gold Loan — 30 minute mein!</b><br><br>
-<b>Rates:</b><br>
-• Banks — 8-12%<br>
-• Muthoot — 12-24%<br><br>
-<b>Kitna milega:</b><br>
-• Gold value ka 75% tak<br>
-• Sirf Aadhar chahiye!<br>
-• CIBIL score nahi chahiye<br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  mudra: {
-    keys: ['mudra','govt','government','scheme','sarkari','pm','pradhan mantri'],
-    response: `🇮🇳 <b>Mudra Loan:</b><br><br>
-• Shishu — ₹50,000 tak<br>
-• Kishore — ₹5 lakh tak<br>
-• Tarun — ₹10 lakh tak<br><br>
-<b>No collateral! Low interest!</b><br>
-Women ko extra benefit!<br><br>
-<b>Hamare expert se baat karein 👇</b>`
-  },
-  reject: {
-    keys: ['reject','rejection','nahi mila','refused','cibil','score'],
-    response: `❌ <b>Loan Reject Hua? Ghabrao mat!</b><br><br>
-<b>Kya karein:</b><br>
-• CIBIL score check karo — free<br>
-• Purana loan chukao pehle<br>
-• Co-applicant add karo<br>
-• 6 mahine baad dobara try karo<br><br>
-<b>Hamare expert aapki help karenge!</b><br><br>
-<b>Abhi call karein 👇</b>`
-  }
-};
+function setLang(lang) {
+  currentLang = lang;
+  const L = LANG[lang];
+  document.getElementById('hLogo').textContent = COMPANY.logo;
+  document.getElementById('hName').textContent = COMPANY.name;
+  document.getElementById('hTagline').textContent = L.tagline;
+  document.getElementById('hBadge').style.background = COMPANY.color;
+  document.getElementById('contactTitle').textContent = L.contactTitle;
+  document.getElementById('cPhone').textContent = COMPANY.phone;
+  document.getElementById('cWeb').textContent = COMPANY.website;
+  document.getElementById('cAddr').textContent = COMPANY.address;
+  document.getElementById('btnCall').textContent = L.callBtn;
+  document.getElementById('btnCall').onclick = () => window.open('tel:'+COMPANY.phone);
+  document.getElementById('btnWA').textContent = L.waBtn;
+  document.getElementById('btnWA').onclick = () => window.open('https://wa.me/'+COMPANY.whatsapp);
+  document.getElementById('btnWeb').textContent = L.webBtn;
+  document.getElementById('btnWeb').onclick = () => window.open('https://'+COMPANY.website);
+  document.getElementById('btnLoc').textContent = L.locBtn;
+  document.getElementById('btnLoc').onclick = () => alert(COMPANY.address);
+  document.getElementById('emiTitle').textContent = L.emiTitle;
+  document.getElementById('emiTitle').style.color = COMPANY.color;
+  document.getElementById('calcBtn').textContent = L.calcBtn;
+  document.getElementById('calcBtn').style.background = COMPANY.color;
+  document.getElementById('secLabel').textContent = L.sectionLabel;
+  document.getElementById('userInput').placeholder = L.placeholder;
+  document.getElementById('applyBtn').textContent = L.applyBtn;
+  document.getElementById('applyBtn').style.background = COMPANY.color;
+  document.getElementById('applyBtn').onclick = () =>
+    window.open('https://wa.me/'+COMPANY.whatsapp+'?text=Mujhe loan ki jaankari chahiye');
+  document.getElementById('disclaimer').textContent = L.disclaimer;
+  document.getElementById('sendBtn').style.background = COMPANY.color;
+  document.getElementById('botAvatar').textContent = COMPANY.logo;
+  document.getElementById('welcomeMsg').innerHTML = L.welcome;
+  document.title = COMPANY.name;
+
+  // Loan buttons
+  const grid = document.getElementById('loanGrid');
+  grid.innerHTML = '';
+  L.loans.forEach(loan => {
+    const btn = document.createElement('button');
+    btn.className = 'loan-btn';
+    btn.style.cssText = `border-color:rgba(255,255,255,0.15)`;
+    btn.innerHTML = `<div class="icon">${loan.icon}</div><div class="name">${loan.name}</div><div class="desc">${loan.desc}</div>`;
+    btn.onmouseover = () => btn.style.borderColor = COMPANY.color;
+    btn.onmouseout = () => btn.style.borderColor = 'rgba(255,255,255,0.15)';
+    btn.onclick = () => quickAsk(loan.q);
+    grid.appendChild(btn);
+  });
+
+  // Lang buttons
+  document.getElementById('btnHI').style.background = lang==='hi' ? COMPANY.color : 'transparent';
+  document.getElementById('btnHI').style.color = lang==='hi' ? '#000' : 'rgba(255,255,255,0.5)';
+  document.getElementById('btnEN').style.background = lang==='en' ? COMPANY.color : 'transparent';
+  document.getElementById('btnEN').style.color = lang==='en' ? '#000' : 'rgba(255,255,255,0.5)';
+}
 
 function getResponse(msg) {
   const m = msg.toLowerCase();
-  for (const [key, data] of Object.entries(knowledge)) {
+  const L = LANG[currentLang];
+  for (const [key, data] of Object.entries(RESPONSES)) {
     for (const kw of data.keys) {
       if (m.includes(kw)) {
-        return data.response + `<br>
+        return data[currentLang] + `<br><br>
 <button onclick="window.open('tel:${COMPANY.phone}')"
-  style="margin-top:8px;padding:8px 16px;background:${COMPANY.color};
-  color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">
-  📞 ${COMPANY.phone} pe Call Karein
+  style="padding:8px 16px;background:${COMPANY.color};color:#000;border:none;
+  border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;margin-right:6px;">
+  📞 ${COMPANY.phone}
+</button>
+<button onclick="window.open('https://wa.me/${COMPANY.whatsapp}')"
+  style="padding:8px 16px;background:#25D366;color:#fff;border:none;
+  border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">
+  💬 WhatsApp
 </button>`;
       }
     }
   }
-  return `💰 Aapka sawaal mila: "${msg}"<br><br>
-Is baare mein hamare expert seedha help karenge!<br><br>
+  return (currentLang === 'hi'
+    ? `💰 आपका सवाल मिला: "<b>${msg}</b>"<br><br>हमारे Expert से सीधे बात करें:`
+    : `💰 Your question: "<b>${msg}</b>"<br><br>Talk directly to our expert:`) +
+  `<br><br>
 <button onclick="window.open('tel:${COMPANY.phone}')"
-  style="margin-top:8px;padding:8px 16px;background:${COMPANY.color};
-  color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">
-  📞 Abhi Call Karein: ${COMPANY.phone}
+  style="padding:8px 16px;background:${COMPANY.color};color:#000;border:none;
+  border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;margin-right:6px;">
+  📞 ${COMPANY.phone}
+</button>
+<button onclick="window.open('https://wa.me/${COMPANY.whatsapp}')"
+  style="padding:8px 16px;background:#25D366;color:#fff;border:none;
+  border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">
+  💬 WhatsApp
 </button>`;
 }
 
 function calcEMI() {
   const p = parseFloat(document.getElementById('principal').value);
-  const r = parseFloat(document.getElementById('rate').value) / 12 / 100;
+  const r = parseFloat(document.getElementById('rate').value)/12/100;
   const n = parseFloat(document.getElementById('tenure').value);
   const result = document.getElementById('emiResult');
-  if (!p || !r || !n) {
-    result.style.display = 'block';
-    result.style.color = '#fbbf24';
-    result.innerHTML = '⚠️ Teenon fields bharein!';
+  if (!p||!r||!n) {
+    result.style.display='block';
+    result.style.color='#fbbf24';
+    result.innerHTML = LANG[currentLang].emiError;
     return;
   }
-  const emi = (p * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
-  const total = emi * n;
-  const interest = total - p;
-  result.style.display = 'block';
+  const emi = (p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  const total = emi*n;
+  const interest = total-p;
+  result.style.display='block';
   result.style.color = COMPANY.color;
-  result.innerHTML = `✅ Monthly EMI: <b>₹${Math.round(emi).toLocaleString('en-IN')}</b><br>
+  result.innerHTML = `✅ EMI: <b>₹${Math.round(emi).toLocaleString('en-IN')}</b><br>
 Total: ₹${Math.round(total).toLocaleString('en-IN')} | Interest: ₹${Math.round(interest).toLocaleString('en-IN')}`;
 }
 
@@ -553,7 +549,7 @@ function addMsg(text, type) {
   const div = document.createElement('div');
   div.className = `msg ${type}`;
   div.innerHTML = `
-    <div class="msg-avatar">${type==='bot' ? COMPANY.logo : '👤'}</div>
+    <div class="msg-avatar">${type==='bot'?COMPANY.logo:'👤'}</div>
     <div class="msg-bubble">${text}</div>`;
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
@@ -572,6 +568,8 @@ function quickAsk(msg) {
   addMsg(msg, 'user');
   setTimeout(() => addMsg(getResponse(msg), 'bot'), 600);
 }
+
+window.onload = () => setLang('hi');
 </script>
 </body>
   </html>
