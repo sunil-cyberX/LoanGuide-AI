@@ -3,1166 +3,575 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LoanGuide AI - Free Loan Guidance</title>
-
+<title>LoanGuide AI</title>
+<script>
+// ════════════════════════════════════════
+// COMPANY CONFIG — SIRF YAHAN CHANGE KARO
+// ════════════════════════════════════════
+const COMPANY = {
+  name: "LoanGuide AI",           // Company naam
+  logo: "💰",                      // Logo emoji ya image URL
+  color: "#60a5fa",                // Brand color
+  phone: "1800-XXX-XXXX",         // Phone number
+  address: "Your City, India",     // Address
+  website: "www.yoursite.com",     // Website
+  tagline: "Free Loan Guidance • 24/7 Available",
+  whatsapp: "91XXXXXXXXXX"        // WhatsApp number
+};
+// ════════════════════════════════════════
+</script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0a0a2e, #1a1a4e, #0d2137);
+    min-height: 100vh;
+    color: white;
+  }
+  .header {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .logo { font-size: 2rem; }
+  .header-text h1 { font-size: 1.3rem; font-weight: 700; }
+  .header-text p { font-size: 0.75rem; }
+  .badge {
+    margin-left: auto;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #000;
+  }
+  .container { max-width: 700px; margin: 0 auto; padding: 1.5rem; }
 
-body{
-  font-family:Segoe UI,Arial,sans-serif;
-  background:linear-gradient(135deg,#070b2b,#111b46,#082b3d);
-  min-height:100vh;color:#fff;
-}
+  /* Company Contact Card */
+  .company-card {
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+  }
+  .company-card-title {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+  }
+  .company-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+  }
+  .info-icon { font-size: 14px; }
+  .contact-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .contact-btn {
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-call { background: #22c55e; color: white; }
+  .btn-whatsapp { background: #25D366; color: white; }
+  .btn-web { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2) !important; }
+  .btn-location { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2) !important; }
 
-.header{
-  background:rgba(255,255,255,.06);
-  backdrop-filter:blur(12px);
-  padding:15px 20px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  border-bottom:1px solid rgba(255,255,255,.12);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.logo{font-size:31px}
-.header-text h1{font-size:20px}
-.header-text p{font-size:11px;color:#7dd3fc}
-.badge{
-  margin-left:auto;
-  background:#60a5fa;
-  color:#00111f;
-  padding:5px 12px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:800;
-}
-
-.container{
-  max-width:760px;
-  margin:auto;
-  padding:18px;
-}
-
-.card{
-  background:rgba(255,255,255,.055);
-  border:1px solid rgba(255,255,255,.11);
-  border-radius:17px;
-  padding:16px;
-  margin-bottom:16px;
-}
-
-.section-title{
-  font-size:13px;
-  color:#7dd3fc;
-  font-weight:700;
-  margin-bottom:12px;
-}
-
-.loan-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.loan-btn{
-  background:rgba(255,255,255,.065);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.13);
-  border-radius:13px;
-  padding:13px;
-  cursor:pointer;
-  text-align:left;
-  transition:.2s;
-}
-
-.loan-btn:hover{
-  background:rgba(96,165,250,.16);
-  border-color:#60a5fa;
-  transform:translateY(-1px);
-}
-
-.loan-btn .icon{font-size:23px}
-.loan-btn .name{
-  margin-top:4px;
-  font-size:13px;
-  font-weight:700;
-}
-.loan-btn .desc{
-  font-size:10px;
-  color:rgba(255,255,255,.5);
-  margin-top:2px;
-}
-
-.emi-inputs{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-input{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.18);
-  color:#fff;
-  border-radius:10px;
-  padding:11px;
-  outline:none;
-}
-
-input::placeholder{color:rgba(255,255,255,.38)}
-input:focus{border-color:#60a5fa}
-
-.btn{
-  border:0;
-  cursor:pointer;
-  font-weight:700;
-  border-radius:10px;
-}
-
-.calc-btn{
-  width:100%;
-  margin-top:9px;
-  padding:10px;
-  background:#60a5fa;
-  color:#00111f;
-}
-
-.emi-result{
-  display:none;
-  margin-top:12px;
-  padding:12px;
-  background:rgba(96,165,250,.12);
-  border-radius:10px;
-  text-align:center;
-  font-size:13px;
-  color:#bae6fd;
-}
-
-.chat-box{
-  height:430px;
-  overflow-y:auto;
-  padding:5px;
-  margin-bottom:12px;
-}
-
-.msg{
-  display:flex;
-  gap:8px;
-  margin-bottom:13px;
-  align-items:flex-start;
-}
-
-.msg.user{flex-direction:row-reverse}
-
-.msg-avatar{
-  font-size:20px;
-  flex-shrink:0;
-}
-
-.msg-bubble{
-  max-width:84%;
-  padding:11px 14px;
-  border-radius:14px;
-  font-size:13px;
-  line-height:1.65;
-  white-space:normal;
-}
-
-.msg.bot .msg-bubble{
-  background:rgba(96,165,250,.13);
-  border:1px solid rgba(96,165,250,.25);
-}
-
-.msg.user .msg-bubble{
-  background:rgba(99,102,241,.28);
-  border:1px solid rgba(99,102,241,.35);
-}
-
-.input-row{
-  display:flex;
-  gap:8px;
-}
-
-#userInput{flex:1}
-
-.send-btn{
-  background:#60a5fa;
-  color:#00111f;
-  padding:0 19px;
-  font-size:18px;
-}
-
-.quick-row{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:10px;
-}
-
-.quick{
-  background:rgba(255,255,255,.07);
-  color:#dbeafe;
-  border:1px solid rgba(255,255,255,.14);
-  padding:7px 10px;
-  border-radius:20px;
-  font-size:11px;
-  cursor:pointer;
-}
-
-.help-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-
-.help-item{
-  background:rgba(255,255,255,.05);
-  border-radius:10px;
-  padding:10px;
-  font-size:12px;
-}
-
-.help-item b{color:#7dd3fc}
-
-.disclaimer{
-  background:rgba(251,191,36,.09);
-  border:1px solid rgba(251,191,36,.25);
-  color:#fcd34d;
-  border-radius:11px;
-  padding:11px;
-  text-align:center;
-  font-size:10px;
-  line-height:1.5;
-  margin-top:15px;
-}
-
-@media(max-width:500px){
-  .container{padding:12px}
-  .loan-grid{grid-template-columns:repeat(2,1fr)}
-  .emi-inputs{grid-template-columns:1fr}
-  .help-grid{grid-template-columns:1fr}
-  .msg-bubble{max-width:88%}
-}
+  .loan-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .loan-btn {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: left;
+    color: white;
+    transition: all 0.2s;
+  }
+  .loan-btn .icon { font-size: 1.4rem; margin-bottom: 4px; }
+  .loan-btn .name { font-size: 13px; font-weight: 600; }
+  .loan-btn .desc { font-size: 11px; color: rgba(255,255,255,0.5); }
+  .chat-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1rem;
+    min-height: 200px;
+    max-height: 350px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+  .msg {
+    margin-bottom: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .msg.bot .msg-bubble {
+    background: rgba(96,165,250,0.15);
+    border: 1px solid rgba(96,165,250,0.3);
+    color: #e0f0ff;
+  }
+  .msg.user .msg-bubble {
+    background: rgba(99,102,241,0.3);
+    border: 1px solid rgba(99,102,241,0.4);
+  }
+  .msg-avatar { font-size: 1.2rem; flex-shrink: 0; }
+  .input-row { display: flex; gap: 8px; }
+  .input-row input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: white;
+    font-size: 14px;
+    outline: none;
+  }
+  .input-row input::placeholder { color: rgba(255,255,255,0.35); }
+  .send-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 16px;
+    color: #000;
+  }
+  .disclaimer {
+    margin-top: 1rem;
+    padding: 10px 14px;
+    background: rgba(251,191,36,0.1);
+    border: 1px solid rgba(251,191,36,0.3);
+    border-radius: 10px;
+    font-size: 11px;
+    color: #fbbf24;
+    text-align: center;
+  }
+  .section-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .emi-calculator {
+    border-radius: 16px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+  }
+  .emi-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+  .emi-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .emi-input {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px;
+    color: white;
+    font-size: 12px;
+    width: 100%;
+    outline: none;
+    text-align: center;
+  }
+  .emi-input::placeholder { color: rgba(255,255,255,0.3); font-size: 10px; }
+  .calc-btn {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    color: #000;
+  }
+  .emi-result {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+  }
+  .apply-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    color: white;
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 </style>
 </head>
-
 <body>
 
-<header class="header">
-  <div class="logo">💰</div>
+<div class="header" id="header">
+  <div class="logo" id="headerLogo"></div>
   <div class="header-text">
-    <h1>LoanGuide AI</h1>
-    <p>Free Loan Guidance • Hindi + English</p>
+    <h1 id="headerName"></h1>
+    <p id="headerTagline"></p>
   </div>
-  <div class="badge">FREE</div>
-</header>
+  <div class="badge" id="headerBadge">FREE</div>
+</div>
 
-<main class="container">
+<div class="container">
 
-  <!-- EMI -->
-  <section class="card">
-    <div class="section-title">🧮 EMI CALCULATOR</div>
+  <!-- Company Contact Card -->
+  <div class="company-card" id="companyCard">
+    <div class="company-card-title">HAMSE SEEDHA BAAT KAREIN</div>
+    <div class="company-info">
+      <div class="info-item">
+        <span class="info-icon">📞</span>
+        <span id="companyPhone"></span>
+      </div>
+      <div class="info-item">
+        <span class="info-icon">🌐</span>
+        <span id="companyWebsite"></span>
+      </div>
+      <div class="info-item" style="grid-column: span 2;">
+        <span class="info-icon">📍</span>
+        <span id="companyAddress"></span>
+      </div>
+    </div>
+    <div class="contact-btns">
+      <button class="contact-btn btn-call" id="btnCall">📞 Call Now</button>
+      <button class="contact-btn btn-whatsapp" id="btnWhatsapp">💬 WhatsApp</button>
+      <button class="contact-btn btn-web" id="btnWeb">🌐 Website</button>
+      <button class="contact-btn btn-location" onclick="alert('Address: ' + COMPANY.address)">📍 Location</button>
+    </div>
+  </div>
 
+  <!-- EMI Calculator -->
+  <div class="emi-calculator">
+    <div class="emi-title" id="emiTitle">🧮 EMI Calculator</div>
     <div class="emi-inputs">
-      <input id="principal" type="number" min="1" placeholder="Loan Amount ₹">
-      <input id="rate" type="number" min="0" step="0.01" placeholder="Annual Interest %">
-      <input id="tenure" type="number" min="1" placeholder="Tenure (Months)">
+      <input class="emi-input" id="principal" type="number" placeholder="Loan ₹">
+      <input class="emi-input" id="rate" type="number" placeholder="Interest %">
+      <input class="emi-input" id="tenure" type="number" placeholder="Months">
     </div>
+    <button class="calc-btn" id="calcBtn" onclick="calcEMI()">Calculate EMI</button>
+    <div class="emi-result" id="emiResult"></div>
+  </div>
 
-    <button class="btn calc-btn" onclick="calcEMI()">
-      Calculate EMI
+  <div class="section-label">LOAN TYPE CHUNIYE</div>
+
+  <div class="loan-grid">
+    <button class="loan-btn" onclick="quickAsk('Home loan ke baare mein batao')">
+      <div class="icon">🏠</div>
+      <div class="name">Home Loan</div>
+      <div class="desc">Ghar kharidne ke liye</div>
     </button>
+    <button class="loan-btn" onclick="quickAsk('Personal loan ke baare mein batao')">
+      <div class="icon">👤</div>
+      <div class="name">Personal Loan</div>
+      <div class="desc">Kisi bhi zaroorat ke liye</div>
+    </button>
+    <button class="loan-btn" onclick="quickAsk('Business loan ke baare mein batao')">
+      <div class="icon">🏢</div>
+      <div class="name">Business Loan</div>
+      <div class="desc">Business ke liye</div>
+    </button>
+    <button class="loan-btn" onclick="quickAsk('Education loan ke baare mein batao')">
+      <div class="icon">🎓</div>
+      <div class="name">Education Loan</div>
+      <div class="desc">Padhai ke liye</div>
+    </button>
+    <button class="loan-btn" onclick="quickAsk('Car loan ke baare mein batao')">
+      <div class="icon">🚗</div>
+      <div class="name">Car Loan</div>
+      <div class="desc">Gaadi ke liye</div>
+    </button>
+    <button class="loan-btn" onclick="quickAsk('Gold loan ke baare mein batao')">
+      <div class="icon">🥇</div>
+      <div class="name">Gold Loan</div>
+      <div class="desc">Sone pe loan</div>
+    </button>
+    <button class="loan-btn" onclick="quickAsk('Mudra loan ke baare mein batao')">
+      <div class="icon">🇮🇳</div>
+      <div class="name">Mudra Loan</div>
+      <div class="desc">Govt scheme</div>
+    </button>
+    <button class="loan-btn" onclick="quickAsk('Loan reject ho gaya kya karoon')">
+      <div class="icon">❌</div>
+      <div class="name">Loan Reject?</div>
+      <div class="desc">Kya karein ab</div>
+    </button>
+  </div>
 
-    <div id="emiResult" class="emi-result"></div>
-  </section>
-
-  <!-- Loan Types -->
-  <section class="card">
-    <div class="section-title">
-      LOAN TYPE CHUNIYE
+  <div class="chat-box" id="chatBox">
+    <div class="msg bot">
+      <div class="msg-avatar" id="botAvatar">💰</div>
+      <div class="msg-bubble" id="welcomeMsg"></div>
     </div>
+  </div>
 
-    <div class="loan-grid">
+  <div class="input-row">
+    <input type="text" id="userInput"
+      placeholder="Loan ke baare mein kuch bhi poochein..."
+      onkeypress="if(event.key==='Enter') sendMsg()">
+    <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+  </div>
 
-      <button class="loan-btn" onclick="quickAsk('Home loan ki complete information aur documents batao')">
-        <div class="icon">🏠</div>
-        <div class="name">Home Loan</div>
-        <div class="desc">Ghar / property</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Personal loan ki complete information aur documents batao')">
-        <div class="icon">👤</div>
-        <div class="name">Personal Loan</div>
-        <div class="desc">Personal needs</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Business loan ki information aur documents batao')">
-        <div class="icon">🏢</div>
-        <div class="name">Business Loan</div>
-        <div class="desc">Business / shop</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Education loan ki information aur documents batao')">
-        <div class="icon">🎓</div>
-        <div class="name">Education Loan</div>
-        <div class="desc">Study / college</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Car loan ki information aur documents batao')">
-        <div class="icon">🚗</div>
-        <div class="name">Car Loan</div>
-        <div class="desc">Car / vehicle</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Gold loan ki information aur documents batao')">
-        <div class="icon">🥇</div>
-        <div class="name">Gold Loan</div>
-        <div class="desc">Gold ke against</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Mudra aur government business loan ke baare mein batao')">
-        <div class="icon">🇮🇳</div>
-        <div class="name">Govt / Mudra</div>
-        <div class="desc">Government schemes</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Loan reject hone ke reasons aur solution batao')">
-        <div class="icon">❌</div>
-        <div class="name">Loan Reject?</div>
-        <div class="desc">Reasons & next steps</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('Loan against property ke baare mein batao')">
-        <div class="icon">🏢</div>
-        <div class="name">Property Loan</div>
-        <div class="desc">Property ke against</div>
-      </button>
-
-      <button class="loan-btn" onclick="quickAsk('FD ke against loan ke baare mein batao')">
-        <div class="icon">🏦</div>
-        <div class="name">Loan Against FD</div>
-        <div class="desc">FD ke against</div>
-      </button>
-
-    </div>
-  </section>
-
-  <!-- Chat -->
-  <section class="card">
-
-    <div class="section-title">
-      🤖 LOANGUIDE AI
-    </div>
-
-    <div id="chatBox" class="chat-box">
-
-      <div class="msg bot">
-        <div class="msg-avatar">💰</div>
-        <div class="msg-bubble">
-          Namaste! 🙏 Main <b>LoanGuide AI</b> hoon.<br><br>
-
-          Main aapko loan ke baare mein general information de sakta hoon:
-          <br>• Loan types
-          <br>• Eligibility
-          <br>• Documents
-          <br>• Loan process
-          <br>• Interest & charges
-          <br>• EMI calculation
-          <br>• Loan rejection ke common reasons
-          <br>• Government schemes ki basic information
-          <br>• Loan safety & fraud awareness
-          <br><br>
-
-          Aap Hindi, Hinglish ya English mein sawaal pooch sakte hain. 😊
-        </div>
-      </div>
-
-    </div>
-
-    <div class="input-row">
-      <input
-        id="userInput"
-        type="text"
-        autocomplete="off"
-        placeholder="Jaise: personal loan ke documents kya hain?"
-        onkeydown="if(event.key==='Enter') sendMsg()"
-      >
-
-      <button class="btn send-btn" onclick="sendMsg()">➤</button>
-    </div>
-
-    <div class="quick-row">
-      <button class="quick" onclick="quickAsk('Personal loan documents')">📄 Documents</button>
-      <button class="quick" onclick="quickAsk('Loan eligibility kya hoti hai?')">✅ Eligibility</button>
-      <button class="quick" onclick="quickAsk('Loan ka process batao')">🔄 Process</button>
-      <button class="quick" onclick="quickAsk('Loan ke charges kya hote hain?')">💰 Charges</button>
-      <button class="quick" onclick="quickAsk('Loan fraud se kaise bachein?')">⚠️ Safety</button>
-    </div>
-
-  </section>
-
-  <!-- Help -->
-  <section class="card">
-
-    <div class="section-title">
-      ☎️ IMPORTANT HELP & COMPLAINT CONTACTS
-    </div>
-
-    <div class="help-grid">
-
-      <div class="help-item">
-        🏦 <b>RBI Contact Centre</b><br>
-        14448<br>
-        <small>RBI related guidance</small>
-      </div>
-
-      <div class="help-item">
-        🛒 <b>National Consumer Helpline</b><br>
-        1915 / 1800-11-4000<br>
-        <small>Consumer complaints</small>
-      </div>
-
-      <div class="help-item">
-        🚨 <b>Cyber Crime</b><br>
-        1930<br>
-        <small>Online financial/cyber fraud</small>
-      </div>
-
-      <div class="help-item">
-        🏢 <b>MSME Udyami Helpline</b><br>
-        1800-180-6763<br>
-        <small>MSME related guidance</small>
-      </div>
-
-    </div>
-
-  </section>
+  <button class="apply-btn" id="applyBtn"
+    onclick="window.open('https://wa.me/'+COMPANY.whatsapp+'?text=Mujhe loan ke baare mein jaankari chahiye', '_blank')">
+    🚀 Abhi Apply Karein — Hamare Expert Se Baat Karein
+  </button>
 
   <div class="disclaimer">
-    ⚠️ LoanGuide AI sirf general educational guidance deta hai.
-    Exact interest rate, eligibility, approval, charges aur required
-    documents lender ke according change ho sakte hain.
-    Application/decision se pehle official bank/NBFC/lender source se
-    latest information verify karein. Kisi unknown person ko OTP,
-    PIN, password ya banking credentials share na karein.
+    ⚠️ Yeh general guidance hai. Final decision ke liye hamare expert se milein.
   </div>
 
-</main>
+</div>
 
 <script>
-
-/* =========================================================
-   LOAN KNOWLEDGE BASE
-   ========================================================= */
-
-const knowledge = {
-
-home: {
-  keys:[
-    "home loan","ghar loan","house loan","home","ghar",
-    "makaan","makan","flat","property purchase"
-  ],
-  title:"🏠 HOME LOAN",
-  response:`
-  <b>🏠 Home Loan — General Guide</b><br><br>
-
-  <b>📌 Home loan kya hai?</b><br>
-  Ghar kharidne, construction ya eligible property-related
-  purpose ke liye lender se liya jane wala loan.
-  <br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • PAN / identity proof<br>
-  • Aadhaar ya other KYC document<br>
-  • Address proof<br>
-  • Salary slips / income proof<br>
-  • Bank statements<br>
-  • ITR, agar applicable ho<br>
-  • Employment/business proof<br>
-  • Property documents<br>
-  • Sale agreement / property papers, as applicable<br><br>
-
-  <b>✅ Eligibility generally depend kar sakti hai:</b><br>
-  • Income<br>
-  • Age<br>
-  • Employment/business profile<br>
-  • Credit history<br>
-  • Existing EMIs<br>
-  • Property details<br>
-  • Lender policy<br><br>
-
-  <b>🔄 Typical process:</b><br>
-  Application → KYC → Income verification → Credit assessment
-  → Property/legal verification → Sanction → Documentation
-  → Disbursement<br><br>
-
-  <b>💰 Charges:</b><br>
-  Processing fee, legal/technical charges, insurance ya other
-  applicable charges lender ke according alag ho sakte hain.<br><br>
-
-  <b>⚠️ Important:</b><br>
-  Interest rate, eligibility aur documents lender aur applicant
-  profile ke according change hote hain. Current details official
-  lender source se verify karein.
-  `
-},
-
-personal:{
-  keys:[
-    "personal loan","personal","emergency","medical",
-    "shaadi","wedding","travel","salary loan"
-  ],
-  title:"👤 PERSONAL LOAN",
-  response:`
-  <b>👤 Personal Loan — General Guide</b><br><br>
-
-  <b>📌 Kya hai?</b><br>
-  Personal loan generally personal expenses ke liye use kiya ja
-  sakta hai, subject to lender terms.
-  <br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • PAN<br>
-  • Aadhaar / other KYC<br>
-  • Address proof<br>
-  • Photograph<br>
-  • Recent salary slips / income proof<br>
-  • Bank statements<br>
-  • Employment proof<br>
-  • ITR, agar applicable ho<br>
-  • Existing loan/EMI information, if requested<br><br>
-
-  <b>✅ Eligibility generally:</b><br>
-  • Age criteria<br>
-  • Stable income<br>
-  • Employment/business profile<br>
-  • Credit history<br>
-  • Existing liabilities<br>
-  • Lender-specific criteria<br><br>
-
-  <b>💰 Charges:</b><br>
-  Processing fee, applicable taxes, late-payment charges,
-  foreclosure/prepayment charges aur other fees ho sakti hain.
-  Exact charges lender se confirm karein.<br><br>
-
-  <b>⚠️ Safety:</b><br>
-  Kisi unknown loan agent ko OTP, UPI PIN, ATM PIN, password ya
-  banking login details na dein. Loan lene se pehle total repayment
-  aur all applicable charges samjhein.
-  `
-},
-
-business:{
-  keys:[
-    "business loan","business","dukan","dukaan","shop",
-    "startup","vyapar","business finance","msme"
-  ],
-  title:"🏢 BUSINESS LOAN",
-  response:`
-  <b>🏢 Business Loan — General Guide</b><br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • PAN / KYC documents<br>
-  • Business registration proof<br>
-  • GST documents, if applicable<br>
-  • ITR<br>
-  • Bank statements<br>
-  • Financial statements<br>
-  • Business address proof<br>
-  • Ownership/rent documents<br>
-  • Existing loan details, if applicable<br><br>
-
-  <b>✅ Lender generally dekh sakta hai:</b><br>
-  • Business vintage<br>
-  • Turnover<br>
-  • Profit/cash flow<br>
-  • Banking history<br>
-  • Credit history<br>
-  • Existing liabilities<br><br>
-
-  <b>🇮🇳 Government schemes:</b><br>
-  Eligible businesses ke liye government-backed schemes available
-  ho sakti hain. Scheme ki eligibility aur current limits official
-  government/bank source se verify karein.<br><br>
-
-  <b>⚠️ Note:</b><br>
-  “Government loan” ka matlab automatic approval ya free money nahi
-  hota. Scheme-specific conditions apply kar sakti hain.
-  `
-},
-
-education:{
-  keys:[
-    "education loan","education","padhai","college",
-    "university","study","abroad","foreign","student loan"
-  ],
-  title:"🎓 EDUCATION LOAN",
-  response:`
-  <b>🎓 Education Loan — General Guide</b><br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • Student KYC<br>
-  • Parent/co-borrower KYC<br>
-  • Admission/offer letter<br>
-  • Fee structure<br>
-  • Academic records<br>
-  • Income proof of co-borrower, if required<br>
-  • Bank statements<br>
-  • ITR, if applicable<br>
-  • Collateral/security documents, where applicable<br><br>
-
-  <b>💡 Loan amount aur security:</b><br>
-  Ye course, institution, country, lender aur sanctioned amount
-  ke according vary kar sakta hai.<br><br>
-
-  <b>⚠️ Current information:</b><br>
-  Interest rate, subsidy/scheme eligibility aur collateral rules
-  change ho sakte hain. Official bank/government source se latest
-  details verify karein.
-  `
-},
-
-car:{
-  keys:[
-    "car loan","car","vehicle loan","vehicle","bike loan",
-    "two wheeler","scooter","gaadi","gadi"
-  ],
-  title:"🚗 CAR / VEHICLE LOAN",
-  response:`
-  <b>🚗 Car / Vehicle Loan — General Guide</b><br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • PAN / KYC<br>
-  • Address proof<br>
-  • Income proof<br>
-  • Salary slips / ITR<br>
-  • Bank statements<br>
-  • Dealer quotation<br>
-  • Vehicle details<br>
-  • Employment/business proof<br><br>
-
-  <b>💰 Lender generally consider kar sakta hai:</b><br>
-  • Vehicle price<br>
-  • Down payment<br>
-  • Income<br>
-  • Credit history<br>
-  • Existing EMIs<br>
-  • Vehicle age/type<br><br>
-
-  New aur used vehicle financing ke rules alag ho sakte hain.
-  Exact rate, LTV aur charges lender se confirm karein.
-  `
-},
-
-gold:{
-  keys:[
-    "gold loan","gold","sona","sone","jewellery",
-    "jewelry","jewellery loan","zevar","zever"
-  ],
-  title:"🥇 GOLD LOAN",
-  response:`
-  <b>🥇 Gold Loan — General Guide</b><br><br>
-
-  Gold loan mein eligible gold jewellery/ornaments ko security ke
-  roop mein rakhkar loan liya ja sakta hai.<br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • KYC / identity proof<br>
-  • Address proof<br>
-  • Passport-size photograph, if required<br>
-  • Gold ownership-related declaration/documents, where required<br><br>
-
-  <b>🔍 Process:</b><br>
-  KYC → Gold valuation → Eligibility calculation → Loan agreement
-  → Gold pledge → Disbursement<br><br>
-
-  <b>⚠️ Important:</b><br>
-  Gold valuation, loan-to-value, interest, auction/default rules
-  aur charges lender ke terms par depend karte hain.
-  Agreement ko dhyan se padhein.
-  `
-},
-
-mudra:{
-  keys:[
-    "mudra","mudra loan","pmmy","government loan",
-    "govt loan","sarkari loan","sarkari scheme",
-    "government scheme","pradhan mantri"
-  ],
-  title:"🇮🇳 GOVERNMENT / MUDRA",
-  response:`
-  <b>🇮🇳 Government Loan / Mudra — General Guide</b><br><br>
-
-  Government-backed schemes mein eligibility, loan category,
-  amount aur conditions scheme ke according alag ho sakti hain.<br><br>
-
-  <b>📄 Common documents jo lag sakte hain:</b><br>
-  • Aadhaar / KYC<br>
-  • PAN<br>
-  • Business proof<br>
-  • Bank statement<br>
-  • Business plan / project details, if required<br>
-  • Address proof<br>
-  • Income/ITR documents, if applicable<br><br>
-
-  <b>⚠️ Important:</b><br>
-  Government scheme ka naam use karne wale fake agents/apps se
-  savdhan rahein. Current scheme rules, eligibility aur application
-  process official government/bank source se verify karein.
-  `
-},
-
-property:{
-  keys:[
-    "loan against property","lap","property ke against",
-    "property loan","mortgage loan"
-  ],
-  title:"🏢 LOAN AGAINST PROPERTY",
-  response:`
-  <b>🏢 Loan Against Property — General Guide</b><br><br>
-
-  Eligible property ko security ke roop mein rakhkar loan liya
-  ja sakta hai, subject to lender rules.<br><br>
-
-  <b>📄 Documents jo lag sakte hain:</b><br>
-  • KYC documents<br>
-  • Income proof<br>
-  • Bank statements<br>
-  • ITR / financial documents<br>
-  • Property title documents<br>
-  • Sale deed / ownership documents<br>
-  • Property tax/related documents, if applicable<br><br>
-
-  Property valuation aur legal verification generally process ka
-  part ho sakte hain.<br><br>
-
-  ⚠️ Default ki situation mein secured property par lender ke
-  contractual/legal rights ho sakte hain. Agreement carefully padhein.
-  `
-},
-
-fd:{
-  keys:[
-    "loan against fd","fd loan","fixed deposit loan",
-    "fd ke against","deposit loan"
-  ],
-  title:"🏦 LOAN AGAINST FD",
-  response:`
-  <b>🏦 Loan Against FD — General Guide</b><br><br>
-
-  Kuch banks eligible fixed deposits ke against loan/credit
-  facility provide karte hain, subject to their terms.<br><br>
-
-  <b>📄 Documents/details jo lag sakte hain:</b><br>
-  • KYC documents<br>
-  • FD/account details<br>
-  • Application form<br>
-  • Signature/authorization documents<br><br>
-
-  Exact loan limit, interest rate, tenure aur repayment rules
-  bank ki policy par depend karte hain.
-  `
-},
-
-reject:{
-  keys:[
-    "loan reject","loan rejection","reject","rejected",
-    "loan nahi mila","loan refused","cibil",
-    "credit score","low score"
-  ],
-  title:"❌ LOAN REJECTION",
-  response:`
-  <b>❌ Loan Reject Hua? General Steps</b><br><br>
-
-  <b>1️⃣ Reason samjhein</b><br>
-  Lender se rejection reason/communication check karein.<br><br>
-
-  <b>2️⃣ Credit report check karein</b><br>
-  Credit report mein outstanding accounts, payment history,
-  enquiries aur errors ko review karein.<br><br>
-
-  <b>3️⃣ Income & existing EMI dekhein</b><br>
-  High existing obligations eligibility ko affect kar sakti hain.<br><br>
-
-  <b>4️⃣ Documents verify karein</b><br>
-  Incomplete/mismatched information application ko affect kar
-  sakti hai.<br><br>
-
-  <b>⚠️ Important:</b><br>
-  Sirf rejection ke baad multiple lenders ko short period mein
-  applications bhejne se pehle lender/credit-report impact samjhein.
-  Exact reason lender hi confirm kar sakta hai.
-  `
-}
-
+// Apply company branding
+window.onload = function() {
+  document.getElementById('headerLogo').textContent = COMPANY.logo;
+  document.getElementById('headerName').textContent = COMPANY.name;
+  document.getElementById('headerTagline').textContent = COMPANY.tagline;
+  document.getElementById('headerBadge').style.background = COMPANY.color;
+  document.getElementById('sendBtn').style.background = COMPANY.color;
+  document.getElementById('calcBtn').style.background = COMPANY.color;
+  document.getElementById('applyBtn').style.background = COMPANY.color;
+  document.getElementById('emiTitle').style.color = COMPANY.color;
+  document.getElementById('companyPhone').textContent = COMPANY.phone;
+  document.getElementById('companyWebsite').textContent = COMPANY.website;
+  document.getElementById('companyAddress').textContent = COMPANY.address;
+  document.getElementById('btnCall').onclick = () => window.open('tel:' + COMPANY.phone);
+  document.getElementById('btnWhatsapp').onclick = () =>
+    window.open('https://wa.me/' + COMPANY.whatsapp + '?text=Mujhe loan mein madad chahiye');
+  document.getElementById('btnWeb').onclick = () =>
+    window.open('https://' + COMPANY.website);
+  document.getElementById('welcomeMsg').innerHTML =
+    `Namaste! Main <b>${COMPANY.name}</b> ka AI assistant hoon. 🙏<br><br>
+    Aap apna sawaal Hindi ya English mein poochein!<br><br>
+    📞 Direct baat ke liye: <b>${COMPANY.phone}</b>`;
+  document.getElementById('botAvatar').textContent = COMPANY.logo;
+  document.title = COMPANY.name + ' - Loan Guidance';
 };
 
+const knowledge = {
+  home: {
+    keys: ['home loan','ghar','house','property','makaan','flat','plot'],
+    response: `🏠 <b>Home Loan Guide:</b><br><br>
+<b>Best Interest Rates:</b><br>
+• SBI — 8.50% se shuru<br>
+• HDFC — 8.75% se shuru<br>
+• ICICI — 8.75% se shuru<br>
+• LIC Housing — 8.50% se shuru<br><br>
+<b>Documents:</b><br>
+• Aadhar + PAN card<br>
+• 6 mahine salary slip<br>
+• 2 saal ITR<br>
+• Property documents<br><br>
+<b>Kitna milega:</b><br>
+• Property value ka 80% tak<br>
+• PMAY mein ₹2.67 lakh subsidy!<br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  personal: {
+    keys: ['personal loan','personal','emergency','shaadi','wedding','travel','medical'],
+    response: `👤 <b>Personal Loan Guide:</b><br><br>
+<b>Interest Rates:</b><br>
+• Banks — 10-15% per year<br>
+• NBFCs — 12-24% per year<br><br>
+<b>Eligibility:</b><br>
+• Minimum salary ₹15,000/month<br>
+• CIBIL score 700+<br>
+• Age 21-58 years<br><br>
+<b>Documents:</b><br>
+• Aadhar + PAN<br>
+• 3 month salary slip<br>
+• Bank statement<br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  business: {
+    keys: ['business loan','business','dukan','shop','startup','vyapar'],
+    response: `🏢 <b>Business Loan Guide:</b><br><br>
+<b>Best Options:</b><br>
+• Mudra Loan — ₹10 lakh tak<br>
+• CGTMSE — ₹2 crore tak<br>
+• Bank Business Loan — 11-16%<br><br>
+<b>Documents:</b><br>
+• Business registration<br>
+• GST certificate<br>
+• 2 saal ITR<br>
+• 12 month bank statement<br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  education: {
+    keys: ['education loan','padhai','college','university','abroad','study'],
+    response: `🎓 <b>Education Loan Guide:</b><br><br>
+<b>India mein:</b><br>
+• SBI Scholar — 8.15% (IIT/IIM)<br>
+• ₹10 lakh tak — no collateral<br><br>
+<b>Abroad ke liye:</b><br>
+• ₹20-75 lakh tak<br>
+• 10-14% interest<br><br>
+<b>SC/ST students ko subsidy milti hai!</b><br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  car: {
+    keys: ['car loan','car','vehicle','bike','gaadi','scooter'],
+    response: `🚗 <b>Car Loan Guide:</b><br><br>
+<b>Rates:</b><br>
+• New car — 8.5-12%<br>
+• Used car — 12-18%<br>
+• Two wheeler — 9-16%<br><br>
+<b>Kitna milega:</b><br>
+• New car — 90% price<br>
+• Used car — 80% value<br><br>
+<b>Tip: Bank se lo — dealer se nahi!</b><br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  gold: {
+    keys: ['gold loan','sona','gold','jewellery','zever'],
+    response: `🥇 <b>Gold Loan — 30 minute mein!</b><br><br>
+<b>Rates:</b><br>
+• Banks — 8-12%<br>
+• Muthoot — 12-24%<br><br>
+<b>Kitna milega:</b><br>
+• Gold value ka 75% tak<br>
+• Sirf Aadhar chahiye!<br>
+• CIBIL score nahi chahiye<br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  mudra: {
+    keys: ['mudra','govt','government','scheme','sarkari','pm','pradhan mantri'],
+    response: `🇮🇳 <b>Mudra Loan:</b><br><br>
+• Shishu — ₹50,000 tak<br>
+• Kishore — ₹5 lakh tak<br>
+• Tarun — ₹10 lakh tak<br><br>
+<b>No collateral! Low interest!</b><br>
+Women ko extra benefit!<br><br>
+<b>Hamare expert se baat karein 👇</b>`
+  },
+  reject: {
+    keys: ['reject','rejection','nahi mila','refused','cibil','score'],
+    response: `❌ <b>Loan Reject Hua? Ghabrao mat!</b><br><br>
+<b>Kya karein:</b><br>
+• CIBIL score check karo — free<br>
+• Purana loan chukao pehle<br>
+• Co-applicant add karo<br>
+• 6 mahine baad dobara try karo<br><br>
+<b>Hamare expert aapki help karenge!</b><br><br>
+<b>Abhi call karein 👇</b>`
+  }
+};
 
-/* =========================================================
-   GENERAL TOPICS
-   ========================================================= */
-
-const generalAnswers = [
-
-{
-keys:["document","documents","paper","papers","kagaz","doc","docs"],
-answer:`
-📄 <b>Loan Documents — General Checklist</b><br><br>
-
-Commonly required documents loan aur lender ke according vary karte hain:<br><br>
-
-• PAN / KYC document<br>
-• Aadhaar / other identity proof<br>
-• Address proof<br>
-• Recent photograph<br>
-• Bank statements<br>
-• Salary slips / income proof<br>
-• Employment/business proof<br>
-• ITR, where applicable<br>
-• Existing loan/EMI details<br>
-• Loan-specific documents, jaise property papers, admission letter,
-  vehicle quotation ya business documents<br><br>
-
-⚠️ <b>Note:</b> Ye general checklist hai. Exact document list
-lender aur applicant profile ke according change ho sakti hai.
-`
-},
-
-{
-keys:["eligibility","eligible","qualification","criteria","mil sakta"],
-answer:`
-✅ <b>Loan Eligibility — General Factors</b><br><br>
-
-Lender commonly in factors ko consider kar sakta hai:<br><br>
-
-• Age<br>
-• Income<br>
-• Employment/business profile<br>
-• Credit history<br>
-• Existing EMIs/liabilities<br>
-• Loan amount requested<br>
-• Repayment capacity<br>
-• KYC/document verification<br>
-• Loan-specific conditions<br><br>
-
-📌 Exact eligibility lender ke assessment ke baad hi confirm hoti hai.
-`
-},
-
-{
-keys:["process","procedure","apply","application","kaise milega","kaise le"],
-answer:`
-🔄 <b>General Loan Process</b><br><br>
-
-1️⃣ Loan type aur purpose identify karein<br>
-2️⃣ Eligibility check karein<br>
-3️⃣ Required documents collect karein<br>
-4️⃣ Lender/application channel choose karein<br>
-5️⃣ Application submit karein<br>
-6️⃣ KYC & verification hota hai<br>
-7️⃣ Credit/income assessment ho sakta hai<br>
-8️⃣ Loan sanction/rejection decision hota hai<br>
-9️⃣ Agreement/documentation complete hoti hai<br>
-🔟 Eligible hone par disbursement hota hai<br><br>
-
-⚠️ Exact process lender ke according different ho sakta hai.
-`
-},
-
-{
-keys:["interest","rate","byaaj","byaj","charges","fee","fees","processing"],
-answer:`
-💰 <b>Interest & Loan Charges</b><br><br>
-
-Loan mein sirf interest hi nahi, kuch additional charges bhi ho
-sakte hain:<br><br>
-
-• Interest rate<br>
-• Processing fee<br>
-• Applicable taxes<br>
-• Late payment charges<br>
-• Prepayment/foreclosure charges, where applicable<br>
-• Legal/valuation charges, for applicable secured loans<br>
-• Insurance or other optional/required charges, depending on product<br><br>
-
-📌 Loan compare karte waqt EMI ke saath <b>total repayment</b>
-aur applicable charges bhi dekhein.<br><br>
-
-Current rates aur charges lender se verify karein.
-`
-},
-
-{
-keys:["fraud","scam","fake loan","loan app","cheating","otp","pin"],
-answer:`
-⚠️ <b>Loan Fraud Se Bachne Ke Tips</b><br><br>
-
-• Unknown person ko OTP/PIN/password na dein<br>
-• Banking login details share na karein<br>
-• Suspicious APK/app install na karein<br>
-• “Guaranteed loan” claims par blindly trust na karein<br>
-• Advance payment/fee demand ko carefully verify karein<br>
-• Lender ki identity aur official website verify karein<br>
-• Agreement aur charges padhein<br><br>
-
-🚨 Cyber financial fraud ho gaya ho to India mein <b>1930</b>
-par report kar sakte hain.
-`
-},
-
-{
-keys:["latest","current","today","2026","abhi ka rate","current rate"],
-answer:`
-🔎 <b>Current / Latest Information</b><br><br>
-
-Loan interest rates, processing fees, eligibility criteria,
-government schemes aur required documents time ke saath change
-ho sakte hain.<br><br>
-
-Main yahan <b>general guidance</b> de raha hoon. Current rate ya
-exact offer ke liye jis bank/NBFC/lender se loan lena hai uski
-official website/branch se latest details verify karein.<br><br>
-
-⚠️ Kisi third-party agent ke screenshot/message ko official offer
-maanne se pehle lender se confirm karein.
-`
-},
-
-{
-keys:["helpline","help","complaint","complain","number","contact"],
-answer:`
-☎️ <b>Useful Help Contacts — India</b><br><br>
-
-🏦 <b>RBI Contact Centre:</b> 14448<br>
-🛒 <b>National Consumer Helpline:</b> 1915 / 1800-11-4000<br>
-🚨 <b>Cyber Crime:</b> 1930<br>
-🏢 <b>MSME Udyami Helpline:</b> 1800-180-6763<br><br>
-
-Numbers/availability change ho sakti hai, isliye official government
-website par current details verify karna useful hai.
-`
-}
-
-];
-
-
-/* =========================================================
-   TEXT NORMALIZATION
-   ========================================================= */
-
-function normalize(text){
-  return text
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu," ")
-    .replace(/\s+/g," ")
-    .trim();
-}
-
-
-/* =========================================================
-   RESPONSE ENGINE
-   ========================================================= */
-
-function getResponse(message){
-
-  const m = normalize(message);
-
-  /* Specific loan types first */
-  for(const item of Object.values(knowledge)){
-
-    for(const key of item.keys){
-
-      if(m.includes(normalize(key))){
-        return item.response;
+function getResponse(msg) {
+  const m = msg.toLowerCase();
+  for (const [key, data] of Object.entries(knowledge)) {
+    for (const kw of data.keys) {
+      if (m.includes(kw)) {
+        return data.response + `<br>
+<button onclick="window.open('tel:${COMPANY.phone}')"
+  style="margin-top:8px;padding:8px 16px;background:${COMPANY.color};
+  color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">
+  📞 ${COMPANY.phone} pe Call Karein
+</button>`;
       }
-
     }
-
   }
-
-  /* General topics */
-  for(const item of generalAnswers){
-
-    for(const key of item.keys){
-
-      if(m.includes(normalize(key))){
-        return item.answer;
-      }
-
-    }
-
-  }
-
-  /* Special combined questions */
-
-  if(
-    (m.includes("loan") || m.includes("lon")) &&
-    (m.includes("document") || m.includes("paper") || m.includes("kagaz"))
-  ){
-    return generalAnswers[0].answer;
-  }
-
-  if(
-    (m.includes("loan") || m.includes("lon")) &&
-    (m.includes("kaise") || m.includes("process"))
-  ){
-    return generalAnswers[2].answer;
-  }
-
-  return `
-  💰 <b>Aapki help karne ke liye main ye information de sakta hoon:</b>
-  <br><br>
-
-  🏠 Home Loan<br>
-  👤 Personal Loan<br>
-  🏢 Business Loan<br>
-  🎓 Education Loan<br>
-  🚗 Car / Vehicle Loan<br>
-  🥇 Gold Loan<br>
-  🇮🇳 Government / Mudra information<br>
-  🏢 Loan Against Property<br>
-  🏦 Loan Against FD<br><br>
-
-  Aap directly aise sawaal pooch sakte hain:<br><br>
-
-  • “Personal loan ke documents kya hain?”<br>
-  • “Home loan ka process batao”<br>
-  • “Loan eligibility kya hoti hai?”<br>
-  • “Loan ke charges kya hote hain?”<br>
-  • “Mera loan reject ho gaya, kya karun?”<br>
-  • “₹10 lakh loan ki EMI kitni hogi?”<br><br>
-
-  👉 <b>Loan type + apna sawaal likhiye.</b>
-  `;
+  return `💰 Aapka sawaal mila: "${msg}"<br><br>
+Is baare mein hamare expert seedha help karenge!<br><br>
+<button onclick="window.open('tel:${COMPANY.phone}')"
+  style="margin-top:8px;padding:8px 16px;background:${COMPANY.color};
+  color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;">
+  📞 Abhi Call Karein: ${COMPANY.phone}
+</button>`;
 }
 
-
-/* =========================================================
-   EMI CALCULATOR
-   ========================================================= */
-
-function calcEMI(){
-
-  const p = parseFloat(document.getElementById("principal").value);
-  const annualRate = parseFloat(document.getElementById("rate").value);
-  const n = parseInt(document.getElementById("tenure").value);
-  const result = document.getElementById("emiResult");
-
-  if(!p || annualRate < 0 || !n){
-
-    result.style.display="block";
-    result.innerHTML="⚠️ Loan amount, interest rate aur tenure sahi se bharein.";
+function calcEMI() {
+  const p = parseFloat(document.getElementById('principal').value);
+  const r = parseFloat(document.getElementById('rate').value) / 12 / 100;
+  const n = parseFloat(document.getElementById('tenure').value);
+  const result = document.getElementById('emiResult');
+  if (!p || !r || !n) {
+    result.style.display = 'block';
+    result.style.color = '#fbbf24';
+    result.innerHTML = '⚠️ Teenon fields bharein!';
     return;
   }
-
-  let emi;
-
-  if(annualRate === 0){
-    emi = p/n;
-  }else{
-
-    const r = annualRate/12/100;
-
-    emi =
-      (p*r*Math.pow(1+r,n)) /
-      (Math.pow(1+r,n)-1);
-  }
-
-  const total = emi*n;
-  const interest = total-p;
-
-  result.style.display="block";
-
-  result.innerHTML = `
-    ✅ Monthly EMI:
-    <b>₹${Math.round(emi).toLocaleString("en-IN")}</b>
-    <br><br>
-    Total Payment:
-    ₹${Math.round(total).toLocaleString("en-IN")}
-    <br>
-    Total Interest:
-    ₹${Math.round(interest).toLocaleString("en-IN")}
-  `;
+  const emi = (p * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+  const total = emi * n;
+  const interest = total - p;
+  result.style.display = 'block';
+  result.style.color = COMPANY.color;
+  result.innerHTML = `✅ Monthly EMI: <b>₹${Math.round(emi).toLocaleString('en-IN')}</b><br>
+Total: ₹${Math.round(total).toLocaleString('en-IN')} | Interest: ₹${Math.round(interest).toLocaleString('en-IN')}`;
 }
 
-
-/* =========================================================
-   SAFE MESSAGE RENDERING
-   ========================================================= */
-
-function addMsg(text,type){
-
-  const box=document.getElementById("chatBox");
-
-  const msg=document.createElement("div");
-  msg.className=`msg ${type}`;
-
-  const avatar=document.createElement("div");
-  avatar.className="msg-avatar";
-  avatar.textContent=type==="bot" ? "💰" : "👤";
-
-  const bubble=document.createElement("div");
-  bubble.className="msg-bubble";
-
-  /*
-    Bot responses intentionally contain trusted HTML.
-    User messages are inserted using textContent to avoid
-    interpreting user input as HTML.
-  */
-
-  if(type==="bot"){
-    bubble.innerHTML=text;
-  }else{
-    bubble.textContent=text;
-  }
-
-  msg.appendChild(avatar);
-  msg.appendChild(bubble);
-
-  box.appendChild(msg);
-  box.scrollTop=box.scrollHeight;
+function addMsg(text, type) {
+  const box = document.getElementById('chatBox');
+  const div = document.createElement('div');
+  div.className = `msg ${type}`;
+  div.innerHTML = `
+    <div class="msg-avatar">${type==='bot' ? COMPANY.logo : '👤'}</div>
+    <div class="msg-bubble">${text}</div>`;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
 }
 
-
-/* =========================================================
-   CHAT
-   ========================================================= */
-
-function sendMsg(){
-
-  const input=document.getElementById("userInput");
-  const msg=input.value.trim();
-
-  if(!msg) return;
-
-  addMsg(msg,"user");
-
-  input.value="";
-
-  setTimeout(()=>{
-
-    const response=getResponse(msg);
-
-    addMsg(response,"bot");
-
-  },350);
+function sendMsg() {
+  const input = document.getElementById('userInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  addMsg(msg, 'user');
+  input.value = '';
+  setTimeout(() => addMsg(getResponse(msg), 'bot'), 600);
 }
 
-
-function quickAsk(message){
-
-  addMsg(message,"user");
-
-  setTimeout(()=>{
-
-    addMsg(getResponse(message),"bot");
-
-  },350);
+function quickAsk(msg) {
+  addMsg(msg, 'user');
+  setTimeout(() => addMsg(getResponse(msg), 'bot'), 600);
 }
-
 </script>
-
 </body>
   </html>
